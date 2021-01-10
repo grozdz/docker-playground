@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  web1:
+    build: ./web
+    ports:
+      - "8081:80"
+  web2:
+    build: ./web
+    ports:
+      - "8082:80"
+  lb:
+    build: ./lb
+  ports:
+      - "80:80"
+  depends_on:
+    - web1
+    - web2
+  db:
+    image: "percona:8"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306"
+    volumes:
+      - /var/lib/mysql
